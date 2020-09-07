@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qf.liangcang.mapper.LocationMapper">
+
+    <insert id="insertLocation" parameterType="com.qf.liangcang.pojo.Location">
+        INSERT INTO location(lname,lphone,larea,ldetail,lstatus) VALUES (#{lname},#{lphone},#{larea},#{ldetail},#{lstatus})
+    </insert>
+
+    <update id="updateLocation" parameterType="com.qf.liangcang.pojo.Location">
+        UPDATE location
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="lname != null">
+                lname = #{lname},
+            </if>
+            <if test="lphone != null">
+                lphone = #{lphone},
+            </if>
+            <if test="larea != null">
+                larea = #{larea},
+            </if>
+            <if test="ldetail != null">
+                ldetail = #{ldetail},
+            </if>
+            <if test="lstatus != null">
+                lstatus = #{lstatus},
+            </if>
+        </trim>
+        WHERE lid = #{lid}
+    </update>
+
+    <delete id="deleteLocation">
+        DELETE FROM location WHERE lid = #{lid}
+    </delete>
+
+    <select id="selectLocationList" resultType="com.qf.liangcang.pojo.Location">
+        SELECT lid,lname,lphone,larea,ldetail,lstatus FROM location
+    </select>
+</mapper>
