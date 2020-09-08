@@ -18,4 +18,7 @@ public interface LocationMapper {
     Integer updateLocation(Location location);
 
     Integer deleteLocation(int lid);
+
+    Integer selectLidByLstatus();
+
 }

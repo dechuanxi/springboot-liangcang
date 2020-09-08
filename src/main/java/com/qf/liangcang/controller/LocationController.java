@@ -33,12 +33,12 @@ public class LocationController {
     }
 
     @GetMapping("/get")
-    public List<Location> getLocationList(){
+    public List<Location> getLocationList() {
         return locationService.getLocationList();
     }
 
     @PostMapping("/update")
-    public AjaxMessage updateLocation(Location location){
+    public AjaxMessage updateLocation(Location location) {
         try {
             locationService.updateLocation(location);
             return new AjaxMessage(true, "修改成功");
@@ -49,7 +49,7 @@ public class LocationController {
     }
 
     @PutMapping("/delete")
-    public AjaxMessage deleteLocation(int lid){
+    public AjaxMessage deleteLocation(int lid) {
         try {
             locationService.deleteLocation(lid);
             return new AjaxMessage(true, "删除成功");
@@ -57,5 +57,35 @@ public class LocationController {
             e.printStackTrace();
         }
         return new AjaxMessage(true, "删除失败");
+    }
+
+    /**
+     * 设置默认地址
+     * @param lid
+     * @return
+     */
+    @RequestMapping("/change")
+    public AjaxMessage changeLstatus(Integer lid) {
+
+        Integer lidByLstatus = locationService.selectLidByLstatus();
+        System.out.println("lidByLstatus\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" +
+                "" + lidByLstatus);
+        Location location = new Location();
+        location.setLid(lid);
+        location.setLstatus(1);
+
+        if (lidByLstatus == null) {
+            locationService.updateLocation(location);
+            return new AjaxMessage(false, "设置成功");
+        } else if (lidByLstatus != null) {
+            Location location1 = new Location();
+            location1.setLid(lidByLstatus);
+            location1.setLstatus(0);
+            locationService.updateLocation(location1);
+            locationService.updateLocation(location);
+            return new AjaxMessage(false, "设置成功");
+        } else {
+            return new AjaxMessage(false, "设置失败");
+        }
     }
 }

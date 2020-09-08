@@ -38,4 +38,8 @@
     <select id="selectLocationList" resultType="com.qf.liangcang.pojo.Location">
         SELECT lid,lname,lphone,larea,ldetail,lstatus FROM location
     </select>
+
+    <select id="selectLidByLstatus" resultType="java.lang.Integer">
+        SELECT lid FROM location WHERE lstatus = 1;
+    </select>
 </mapper>

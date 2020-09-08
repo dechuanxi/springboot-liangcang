@@ -43,4 +43,10 @@ public class LocationServiceImpl implements LocationService {
 
         return locationMapper.deleteLocation(lid);
     }
+
+    @Override
+    public Integer selectLidByLstatus() {
+
+        return locationMapper.selectLidByLstatus();
+    }
 }

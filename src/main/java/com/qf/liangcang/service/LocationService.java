@@ -19,4 +19,6 @@ public interface LocationService {
     Integer updateLocation(Location location);
 
     Integer deleteLocation(int lid);
+
+    Integer selectLidByLstatus();
 }
