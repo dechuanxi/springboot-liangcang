@@ -76,14 +76,14 @@ public class LocationController {
 
         if (lidByLstatus == null) {
             locationService.updateLocation(location);
-            return new AjaxMessage(false, "设置成功");
+            return new AjaxMessage(true, "设置成功");
         } else if (lidByLstatus != null) {
             Location location1 = new Location();
             location1.setLid(lidByLstatus);
             location1.setLstatus(0);
             locationService.updateLocation(location1);
             locationService.updateLocation(location);
-            return new AjaxMessage(false, "设置成功");
+            return new AjaxMessage(true, "设置成功");
         } else {
             return new AjaxMessage(false, "设置失败");
         }

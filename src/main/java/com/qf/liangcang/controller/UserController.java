@@ -6,6 +6,8 @@ import com.qf.liangcang.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -28,13 +30,14 @@ public class UserController {
      * @return
      */
     @PostMapping("/add")
-    public AjaxMessage add(User user) {
+    public AjaxMessage add(User user, HttpServletResponse response) {
+
 
         String substring = user.getUphone().substring(7, 11);
-        System.out.println("user.getUphone().substring(7, 10)"+substring);
+        System.out.println("user.getUphone().substring(7, 11)"+substring);
         try {
 //            user.setUnickname("aanncc");
-            user.setUnickname(user.getUphone().substring(7, 10));
+            user.setUnickname(user.getUphone().substring(7, 11));
             user.setUstatus("1");
             userService.addUser(user);
             return new AjaxMessage(true, "添加成功");
@@ -50,7 +53,7 @@ public class UserController {
     }
 
     /**
-     * 根据id更新，写错了
+     * 根据id更新
      * @param user
      * @return
      */
