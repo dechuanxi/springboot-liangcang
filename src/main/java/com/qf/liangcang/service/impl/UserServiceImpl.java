@@ -22,9 +22,9 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public void addUser(User user) {
+    public Integer addUser(User user) {
         System.out.println("UserServiceImpl++addUser++user.getUnickname()====="+user.getUnickname());
-        userMapper.insertUser(user);
+        return userMapper.insertUser(user);
     }
 
     @Override
@@ -35,5 +35,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Integer updateUser(User user) {
         return userMapper.updateUser(user);
+    }
+
+    @Override
+    public Integer getUidByUphone(String uphone) {
+        return userMapper.selectUidByUphone(uphone);
     }
 }

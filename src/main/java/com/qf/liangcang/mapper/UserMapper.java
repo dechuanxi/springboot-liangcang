@@ -15,9 +15,11 @@ public interface UserMapper {
 
 //    @Insert("INSERT INTO user(uphone,ucode,ustatus) VALUES(#{uphone},#{ucode},#{ustatus});")
 //    Integer insertUser(User user);
-    void insertUser(User user);
+    Integer insertUser(User user);
 
     User getUser(int uid);
 
     Integer updateUser(User user);
+
+    Integer selectUidByUphone(String uphone);
 }

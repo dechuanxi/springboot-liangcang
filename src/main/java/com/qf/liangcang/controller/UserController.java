@@ -6,9 +6,7 @@ import com.qf.liangcang.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author WDZ
@@ -26,25 +24,35 @@ public class UserController {
     /**
      * 添加用户之前要校验手机号是否已经存在，存在校验登录状态，不存在直接插入
      * 根据手机号查询登录状态，ustatus为0表示登录成功，为1表示登录失败
+     * <p>
+     * <p>
+     * 0909：判断手机号是否存在select uid from user where uphone = #{uphone}
+     * 不存在直接插入
+     * 存在 update user set ucode = #{code}
+     *
      * @param user
      * @return
      */
     @PostMapping("/add")
-    public AjaxMessage add(User user, HttpServletResponse response) {
+    public Integer add(User user, HttpServletRequest request) {
 
-
-        String substring = user.getUphone().substring(7, 11);
-        System.out.println("user.getUphone().substring(7, 11)"+substring);
         try {
-//            user.setUnickname("aanncc");
-            user.setUnickname(user.getUphone().substring(7, 11));
-            user.setUstatus("1");
-            userService.addUser(user);
-            return new AjaxMessage(true, "添加成功");
+            Integer uidByUphone = userService.getUidByUphone(user.getUphone());
+            if (uidByUphone != null) {
+                user.setUid(uidByUphone);
+                userService.updateUser(user);
+            } else {
+                user.setUnickname(user.getUphone().substring(7, 11));
+                user.setUstatus("1");
+                Integer uid = userService.addUser(user);
+                user.setUid(uid);
+                request.getSession().setAttribute("loginUser", user);
+                return uid;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new AjaxMessage(false, "添加失败");
+        return null;
     }
 
     @GetMapping("/get")
@@ -54,6 +62,7 @@ public class UserController {
 
     /**
      * 根据id更新
+     *
      * @param user
      * @return
      */

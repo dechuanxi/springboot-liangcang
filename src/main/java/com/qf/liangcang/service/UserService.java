@@ -11,9 +11,11 @@ import java.util.List;
  * @description
  */
 public interface UserService {
-    void addUser(User user);
+    Integer addUser(User user);
 
     User getUser(int uid);
 
     Integer updateUser(User user);
+
+    Integer getUidByUphone(String uphone);
 }

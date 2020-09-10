@@ -5,15 +5,45 @@
 
 <mapper namespace="com.qf.liangcang.mapper.UserMapper">
     <insert id="insertUser" parameterType="com.qf.liangcang.pojo.User">
+        <selectKey keyProperty="uid" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
         INSERT INTO user(unickname,uphone,ucode,ustatus) VALUES(#{unickname},#{uphone},#{ucode},#{ustatus});
     </insert>
 
     <update id="updateUser" parameterType="com.qf.liangcang.pojo.User">
-        update user set unickname = #{unickname},usex = #{usex},uphone = #{uphone},uavatar = #{uavatar},udescription = #{udescription},ustatus = #{ustatus},ucode = #{ucode} where uid = #{uid}
+        UPDATE user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="unickname != null">
+                unickname = #{unickname},
+            </if>
+            <if test="usex != null">
+                usex = #{usex},
+            </if>
+            <if test="uphone != null">
+                uphone = #{uphone},
+            </if>
+            <if test="uavatar != null">
+                uavatar = #{uavatar},
+            </if>
+            <if test="udescription != null">
+                udescription = #{udescription},
+            </if>
+            <if test="ustatus != null">
+                ustatus = #{ustatus},
+            </if>
+            <if test="ucode != null">
+                ucode = #{ucode},
+            </if>
+        </trim>
+        WHERE uid = #{uid}
     </update>
 
     <select id="getUser" parameterType="int" resultType="com.qf.liangcang.pojo.User">
         SELECT * FROM `user` WHERE uid = #{uid}
+    </select>
+    <select id="selectUidByUphone" parameterType="string" resultType="java.lang.Integer">
+        SELECT uid FROM user WHERE uphone = #{uphone}
     </select>
 
 </mapper>
